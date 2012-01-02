@@ -13,7 +13,7 @@
 // Gen 3 Plus = 21
 // gen 3  Monolithic Electronics = 22
 // Gen3 PLUS for TechZone Gen3 Remix Motherboard = 23
-#define MOTHERBOARD 3 
+#define MOTHERBOARD 5 
 
 //// Thermistor settings:
 // 1 is 100k thermistor
@@ -25,6 +25,9 @@
 // 7 is 100k Honeywell thermistor 135-104LAG-J01
 #define THERMISTORHEATER 1
 #define THERMISTORBED 1
+//// Gen 6 Heated Build Plate
+// Set to 1 if using the Gen 6 HBP mod here <wikilink>
+#define GEN6HBPMOD 1
 
 //// Calibration variables
 // X, Y, Z, E steps per unit - Metric Prusa Mendel with Wade extruder:

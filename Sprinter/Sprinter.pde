@@ -309,10 +309,15 @@ void setup()
     SET_OUTPUT(HEATER_0_PIN);
     WRITE(HEATER_0_PIN,LOW);
   #endif  
-  #if (HEATER_1_PIN > -1) 
+  #if (HEATER_1_PIN > -1) //tony
     SET_OUTPUT(HEATER_1_PIN);
     WRITE(HEATER_1_PIN,LOW);
   #endif  
+
+  #if GEN6HBPMOD == 1
+    SET_INPUT(SCL_REUSE);
+    WRITE(SCL_REUSE,LOW);
+  #endif
   
   //Initialize Fan Pin
   #if (FAN_PIN > -1) 

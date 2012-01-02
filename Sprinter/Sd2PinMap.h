@@ -121,8 +121,8 @@ static const pin_map_t digitalPinMap[] = {
 // Sanguino
 
 // Two Wire (aka I2C) ports
-uint8_t const SDA_PIN = 17;
-uint8_t const SCL_PIN = 18;
+uint8_t const SDA_PIN = 16;
+uint8_t const SCL_PIN = 17;
 
 // SPI port
 uint8_t const SS_PIN = 4;
