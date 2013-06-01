@@ -1,4 +1,4 @@
-﻿#ifndef CONFIGURATION_H
+#ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
 // BASIC SETTINGS: select your board type, thermistor type, axis scaling, and endstop configuration
@@ -32,7 +32,7 @@
 
 //// Calibration variables
 // X, Y, Z, E steps per unit - Metric Prusa Mendel with Wade extruder:
-#define _AXIS_STEP_PER_UNIT {40.211869, 40.05005, 3373.854,270.470445}
+#define _AXIS_STEP_PER_UNIT {40.88656, 41.824793, 3373.854,270.470445}
 // Metric Prusa Mendel with Makergear geared stepper extruder:
 //#define _AXIS_STEP_PER_UNIT {80,80,3200/1.25,1380}
 // MakerGear Hybrid Prusa Mendel:
@@ -71,11 +71,11 @@ const bool Z_ENDSTOP_INVERT = true;
 // M502 - reverts to the default "factory settings". You still need to store them in EEPROM afterwards if you want to.
 // M503 - Print settings
 // define this to enable eeprom support
-//#define USE_EEPROM_SETTINGS
+#define USE_EEPROM_SETTINGS
 
 // to disable EEPROM Serial responses and decrease program space by ~1000 byte: comment this out:
 // please keep turned on if you can.
-//#define PRINT_EEPROM_SETTING
+#define PRINT_EEPROM_SETTING
 
 //-----------------------------------------------------------------------
 //// ARC Function (G2/G3 Command)
