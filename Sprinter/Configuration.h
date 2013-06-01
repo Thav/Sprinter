@@ -1,4 +1,4 @@
-#ifndef CONFIGURATION_H
+﻿#ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
 // BASIC SETTINGS: select your board type, thermistor type, axis scaling, and endstop configuration
@@ -7,11 +7,13 @@
 // MEGA/RAMPS up to 1.2  = 3,
 // RAMPS 1.3 = 33
 // Gen6 = 5, 
+// Gen6 deluxe = 51
 // Sanguinololu up to 1.1 = 6
 // Sanguinololu 1.2 and above = 62
 // Gen 7 @ 16MHZ only= 7
 // Gen 7 @ 20MHZ only= 71
 // Teensylu (at90usb) = 8
+// Printrboard Rev. B (ATMEGA90USB1286) = 9
 // Gen 3 Plus = 21
 // gen 3  Monolithic Electronics = 22
 // Gen3 PLUS for TechZone Gen3 Remix Motherboard = 23
@@ -153,23 +155,32 @@ const int NUM_AXIS = 4; // The axis order in all axis related arrays is X, Y, Z,
 
 #define MAX_STEP_FREQUENCY 30000 // Max step frequency
 
+//For the retract (negative Extruder) move this maxiumum Limit of Feedrate is used
+//The next positive Extruder move use also this Limit, 
+//then for the next (second after retract) move the original Maximum (_MAX_FEEDRATE) Limit is used
+#define MAX_RETRACT_FEEDRATE 100    //mm/sec
 
 //-----------------------------------------------------------------------
 //// Not used at the Moment
 //-----------------------------------------------------------------------
 
-// Min step delay in microseconds. If you are experiencing missing steps, try to raise the delay microseconds, but be aware this
+// Extended step pulse in microseconds.
 // If you enable this, make sure STEP_DELAY_RATIO is disabled.
-//#define STEP_DELAY_MICROS 1
+// Minimum High Time for Stepperpulse at 16 Mhz (E-Axis) is 2,4 us
+// Minimum High Time for Stepperpulse on X = 6,7 us / Y = 5,6 us / Z = 3,6 us
+// if you want Stepperpulse like 8 us set the value to 6 
+#define EXTEND_STEP_PULSE_USEC 0
 
 // Step delay over interval ratio. If you are still experiencing missing steps, try to uncomment the following line, but be aware this
 // If you enable this, make sure STEP_DELAY_MICROS is disabled. (except for Gen6: both need to be enabled.)
 //#define STEP_DELAY_RATIO 0.25
 
 ///Oscillation reduction.  Forces x,y,or z axis to be stationary for ## ms before allowing axis to switch direcitons.  Alternative method to prevent skipping steps.  Uncomment the line below to activate.
+// At this Version with Planner this Function ist not used
 //#define RAPID_OSCILLATION_REDUCTION
+
 #ifdef RAPID_OSCILLATION_REDUCTION
-long min_time_before_dir_change = 30; //milliseconds
+const long min_time_before_dir_change = 30; //milliseconds
 #endif
 
 //-----------------------------------------------------------------------
@@ -180,6 +191,7 @@ long min_time_before_dir_change = 30; //milliseconds
 #define _RETRACT_ACCELERATION 2000 // Extruder Normal acceleration mm/s^2
 #define _MAX_XY_JERK 20.0
 #define _MAX_Z_JERK 0.4
+#define _MAX_E_JERK 5.0    // (mm/sec)
 //#define _MAX_START_SPEED_UNITS_PER_SECOND {25.0,25.0,0.2,10.0}
 #define _MAX_ACCELERATION_UNITS_PER_SQ_SECOND {5000,5000,50,5000}    // X, Y, Z and E max acceleration in mm/s^2 for printing moves or retracts
 
@@ -187,10 +199,12 @@ long min_time_before_dir_change = 30; //milliseconds
 // Minimum planner junction speed. Sets the default minimum speed the planner plans for at the end
 // of the buffer and all stops. This should not be much greater than zero and should only be changed
 // if unwanted behavior is observed on a user's machine when running at very slow speeds.
-#define MINIMUM_PLANNER_SPEED 2.0 // (mm/sec)
+#define MINIMUM_PLANNER_SPEED 0.05 // (mm/sec)
 
 #define DEFAULT_MINIMUMFEEDRATE       0.0     // minimum feedrate
 #define DEFAULT_MINTRAVELFEEDRATE     0.0
+
+#define _MIN_SEG_TIME 20000
 
 // If defined the movements slow down when the look ahead buffer is only half full
 #define SLOWDOWN
@@ -232,6 +246,26 @@ const int dropsegments=5; //everything with less than this number of steps will 
 #define N_ARC_CORRECTION 25
 
 //-----------------------------------------------------------------------
+//// FANCONTROL WITH SOFT PWM
+//-----------------------------------------------------------------------
+
+//With this option its possible to drive the fan with SOFT PWM (500hz) and use
+//every Digital output for it, main usage for Sanguinololu
+#define FAN_SOFT_PWM
+
+//-----------------------------------------------------------------------
+//// MINIMUM START SPEED FOR FAN
+//-----------------------------------------------------------------------
+
+//Minimum start speed for FAN when the last speed was zero
+//Set to 0 to deaktivate
+//If value is set the fan will drive with this minimum speed for MINIMUM_FAN_START_TIME
+#define MINIMUM_FAN_START_SPEED  0
+
+//This is the time how long the minimum FAN speed is set
+#define MINIMUM_FAN_START_TIME  6000    //6sec
+
+//-----------------------------------------------------------------------
 //// HEATERCONTROL AND PID PARAMETERS
 //-----------------------------------------------------------------------
 
@@ -262,6 +296,10 @@ const int dropsegments=5; //everything with less than this number of steps will 
 //Command M601 / Command M602 Reset the MIN/MAX Value
 //#define DEBUG_HEATER_TEMP
 
+// M303 - PID relay autotune S<temperature> sets the target temperature. 
+// (default target temperature = 150C)
+#define PID_AUTOTUNE
+
 //PID Controler Settings
 #define PID_INTEGRAL_DRIVE_MAX 80 // too big, and heater will lag after changing temperature, too small and it might not compensate enough for long-term errors
 #define PID_PGAIN 2560 //256 is 1.0  // value of X means that error of 1 degree is changing PWM duty by X, probably no need to go over 25
@@ -275,7 +313,7 @@ const int dropsegments=5; //everything with less than this number of steps will 
 #define LED_PWM_FOR_BRIGHTNESS(brightness) ((64*brightness-1384)/(300-brightness))
 #endif
 
-// Change this value (range 1-255) to limit the current to the nozzle
+// Change this value (range 30-255) to limit the current to the nozzle
 #define HEATER_CURRENT 255
 
 // How often should the heater check for new temp readings, in milliseconds
@@ -332,6 +370,11 @@ const int dropsegments=5; //everything with less than this number of steps will 
 //#define CONTROLLERFAN_PIN 23 //Pin used for the fan to cool controller, comment out to disable this function
 #define CONTROLLERFAN_SEC 60 //How many seconds, after all motors were disabled, the fan should run
 
+//This is for controlling a fan that will keep the extruder cool.
+//#define EXTRUDERFAN_PIN 66 //Pin used to control the fan, comment out to disable this function
+#define EXTRUDERFAN_DEC 50 //Hotend temperature from where the fan will be turned on
+
+//#define CHAIN_OF_COMMAND 1 //Finish buffered moves before executing M42, fan speed, heater target, and so...
 
 //-----------------------------------------------------------------------
 // DEBUGING

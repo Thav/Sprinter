@@ -91,6 +91,7 @@ typedef struct {
 void FlushSerialRequestResend();
 void ClearToSend();
 
+void analogWrite_check(uint8_t check_pin, int val);
 void showString (PGM_P s);
 
 void manage_inactivity(byte debug);
@@ -121,6 +122,10 @@ void check_buffer_while_arc();
 #ifdef SDSUPPORT
 void print_disk_info(void);
 #endif //SDSUPPORT
+
+#if (MINIMUM_FAN_START_SPEED > 0)
+void manage_fan_start_speed(void);
+#endif
 
 #ifdef DEBUG
 void log_message(char*   message);

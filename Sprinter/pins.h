@@ -143,6 +143,7 @@
 
 #endif
 
+
 /****************************************************************************************
 * RepRap Motherboard  ****---NOOOOOO RS485/EXTRUDER CONTROLLER!!!!!!!!!!!!!!!!!---*******
 *
@@ -150,7 +151,7 @@
 #if MOTHERBOARD == 2
 #define KNOWN_BOARD 1
 
-#if !defined(__AVR_ATmega644P__) && !defined(__AVR_ATmega1284P__) 
+#if !defined(__AVR_ATmega644P__) && !defined(__AVR_ATmega1284P__) && !defined(__ATmega644P__) && !defined(__ATmega1284P__)  
 #error Oops!  Make sure you have 'Sanguino' selected from the 'Tools -> Boards' menu.
 #endif
 
@@ -567,6 +568,11 @@
 * Gen6 pin assignment
 *
 ****************************************************************************************/
+#if MOTHERBOARD == 51
+  #define MOTHERBOARD 5
+  #define GEN6_DELUXE
+#endif
+
 #if MOTHERBOARD == 5
 #define KNOWN_BOARD 1
 
@@ -601,8 +607,15 @@
     #define E_ENABLE_PIN    3     //Added @ EJE Electronics 20100715
     #define TEMP_0_PIN      5     //changed @ rkoeppl 20110410
     #define HEATER_0_PIN    14    //changed @ rkoeppl 20110410
-
+    #define HEATER_1_PIN    -1    //changed @ rkoeppl 20110410
     
+    #ifdef GEN6_DELUXE
+      #define HEATER_1_PIN   1    
+      #define TEMP_1_PIN     0    
+    #else
+      #define HEATER_1_PIN   -1   
+      #define TEMP_1_PIN     -1    
+    #endif
     
     #define SDPOWER         -1
     #define SDSS            -1    //no sd card on gen6 Thav 20120102
@@ -762,39 +775,37 @@
 #define KNOWN_BOARD 1
 
 
-#define X_STEP_PIN          0  
-#define X_DIR_PIN           1  
-#define X_ENABLE_PIN       39 
-#define X_MIN_PIN          13 
+#define X_STEP_PIN         28
+#define X_DIR_PIN          29
+#define X_ENABLE_PIN       19
+#define X_MIN_PIN          25
 #define X_MAX_PIN          -1    
 
-#define Y_STEP_PIN          2  
-#define Y_DIR_PIN           3 
-#define Y_ENABLE_PIN       38 
-#define Y_MIN_PIN          14 
+#define Y_STEP_PIN         30
+#define Y_DIR_PIN          31
+#define Y_ENABLE_PIN       26
+#define Y_MIN_PIN           20
 #define Y_MAX_PIN          -1    
 
-#define Z_STEP_PIN          4
-#define Z_DIR_PIN           5 
-#define Z_ENABLE_PIN       23 
-#define Z_MIN_PIN          15 
+#define Z_STEP_PIN         32
+#define Z_DIR_PIN          33
+#define Z_ENABLE_PIN       17
+#define Z_MIN_PIN          27
 #define Z_MAX_PIN          -1    
 
-#define E_STEP_PIN          6  
-#define E_DIR_PIN           7 
-#define E_ENABLE_PIN       19 
+#define E_STEP_PIN         34
+#define E_DIR_PIN          35
+#define E_ENABLE_PIN       13
 
-
-
-#define HEATER_0_PIN       21  // Extruder
-#define HEATER_1_PIN       20  // Bed
-#define FAN_PIN            22  // Fan   
+#define HEATER_0_PIN       15  // Extruder
+#define HEATER_1_PIN       14  // Bed
+#define FAN_PIN            16  // Fan   
 
 #define TEMP_0_PIN          7  // Extruder
 #define TEMP_1_PIN          6  // Bed
 
 #define SDPOWER            -1
-#define SDSS                8
+#define SDSS                20
 #define LED_PIN            -1
 #define PS_ON_PIN          -1
 #define KILL_PIN           -1 
@@ -802,9 +813,9 @@
 
 #ifndef SDSUPPORT
 // these pins are defined in the SD library if building with SD support  
-  #define SCK_PIN           9 
-  #define MISO_PIN         11 
-  #define MOSI_PIN         10 
+  #define SCK_PIN          21
+  #define MISO_PIN         22 
+  #define MOSI_PIN         23 
 #endif
 
 #endif
@@ -819,48 +830,46 @@
 #define KNOWN_BOARD 1
 
 
-#define X_STEP_PIN 0
-#define X_DIR_PIN 1
-#define X_ENABLE_PIN 39
-#define X_MIN_PIN 35
-#define X_MAX_PIN -1
+#define X_STEP_PIN         28
+#define X_DIR_PIN          29
+#define X_ENABLE_PIN       19
+#define X_MIN_PIN          47
+#define X_MAX_PIN          -1
 
-#define Y_STEP_PIN 2
-#define Y_DIR_PIN 3
-#define Y_ENABLE_PIN 38
-#define Y_MIN_PIN 8
-#define Y_MAX_PIN -1
+#define Y_STEP_PIN         30
+#define Y_DIR_PIN          31
+#define Y_ENABLE_PIN       18
+#define Y_MIN_PIN           20
+#define Y_MAX_PIN          -1
 
-#define Z_STEP_PIN 4
-#define Z_DIR_PIN 5
-#define Z_ENABLE_PIN 23
-#define Z_MIN_PIN 36
-#define Z_MAX_PIN -1
+#define Z_STEP_PIN         32
+#define Z_DIR_PIN          33
+#define Z_ENABLE_PIN       17
+#define Z_MIN_PIN          36
+#define Z_MAX_PIN          -1
 
-#define E_STEP_PIN 6
-#define E_DIR_PIN 7
-#define E_ENABLE_PIN 19
+#define E_STEP_PIN         34
+#define E_DIR_PIN          35
+#define E_ENABLE_PIN       13
 
+#define HEATER_0_PIN       15  // Extruder
+#define HEATER_1_PIN       14  // Bed
+#define FAN_PIN            16  // Fan
 
+#define TEMP_0_PIN          1  // Extruder
+#define TEMP_1_PIN          0  // Bed
 
-#define HEATER_0_PIN 21 // Extruder
-#define HEATER_1_PIN 20 // Bed
-#define FAN_PIN 22 // Fan
-
-#define TEMP_0_PIN 1 // Extruder
-#define TEMP_1_PIN 0 // Bed
-
-#define SDPOWER -1
-#define SDSS 26
-#define LED_PIN -1
-#define PS_ON_PIN -1
-#define KILL_PIN -1
+#define SDPOWER            -1
+#define SDSS                2
+#define LED_PIN            -1
+#define PS_ON_PIN          -1
+#define KILL_PIN           -1
 
 #ifndef SDSUPPORT
 // these pins are defined in the SD library if building with SD support
-#define SCK_PIN 9
-#define MISO_PIN 11
-#define MOSI_PIN 10
+  #define SCK_PIN          21
+  #define MISO_PIN         22
+  #define MOSI_PIN         23
 #endif
 
 #endif
@@ -871,7 +880,7 @@
 
 
 //List of pins which to ignore when asked to change by gcode, 0 and 1 are RX and TX, do not mess with those!
-const int sensitive_pins[] = {0, 1, X_STEP_PIN, X_DIR_PIN, X_ENABLE_PIN, X_MIN_PIN, X_MAX_PIN, Y_STEP_PIN, Y_DIR_PIN, Y_ENABLE_PIN, Y_MIN_PIN, Y_MAX_PIN, Z_STEP_PIN, Z_DIR_PIN, Z_ENABLE_PIN, Z_MIN_PIN, Z_MAX_PIN, E_STEP_PIN, E_DIR_PIN, E_ENABLE_PIN, LED_PIN, PS_ON_PIN, HEATER_0_PIN, HEATER_1_PIN, FAN_PIN, TEMP_0_PIN, TEMP_1_PIN};
+const int sensitive_pins[] = {0, 1, X_STEP_PIN, X_DIR_PIN, X_ENABLE_PIN, X_MIN_PIN, X_MAX_PIN, Y_STEP_PIN, Y_DIR_PIN, Y_ENABLE_PIN, Y_MIN_PIN, Y_MAX_PIN, Z_STEP_PIN, Z_DIR_PIN, Z_ENABLE_PIN, Z_MIN_PIN, Z_MAX_PIN, E_STEP_PIN, E_DIR_PIN, E_ENABLE_PIN, LED_PIN, PS_ON_PIN, HEATER_0_PIN, HEATER_1_PIN, FAN_PIN, TEMP_0_PIN+55, TEMP_1_PIN+55, TEMP_2_PIN+55, TEMP_BED_PIN+55};
 
 #endif
 
